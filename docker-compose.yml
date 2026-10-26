@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  agent-app:
+    build: .
+    container_name: agent-trace-ops-app
+    ports:
+      - "8000:8000"
+      - "8501:8501"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - phoenix
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: agent-phoenix-collector
+    ports:
+      - "6006:6006"  # Phoenix UI & OpenTelemetry collector
+    environment:
+      - PHOENIX_PORT=6006

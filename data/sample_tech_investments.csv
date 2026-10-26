@@ -1,0 +1,21 @@
+company,sector,funding_usd_millions,valuation_usd_millions,year,stage,lead_investor,country
+Anthropic,GenAI,4000,18000,2023,Series C,Amazon,USA
+Scale AI,Data Infrastructure,1000,13800,2024,Series F,Accel,USA
+Mistral AI,GenAI,640,6000,2024,Series B,General Catalyst,France
+Figure AI,Robotics,675,2600,2024,Series B,Parkway Venture Capital,USA
+Cohere,Enterprise LLM,500,5500,2024,Series D,Cisco & PSP Investments,Canada
+Perplexity AI,AI Search,250,3000,2024,Series B,IVP,USA
+Groq,AI Chips,640,2800,2024,Series D,BlackRock,USA
+Databricks,Data & AI,500,43000,2023,Series I,T. Rowe Price,USA
+xAI,GenAI,6000,24000,2024,Series B,Valor Equity Partners,USA
+Poolside,Code AI,500,3000,2024,Series B,Bain Capital Ventures,France
+Hugging Face,Open Source AI,235,4500,2023,Series D,Salesforce Ventures,USA
+Cognition AI,Devin AI,175,2000,2024,Series A,Founders Fund,USA
+ElevenLabs,Voice AI,80,1100,2024,Series B,Andreessen Horowitz,USA
+CoreWeave,Cloud GPU,1100,19000,2024,Series C,Coatue,USA
+Aleph Alpha,GenAI,500,1200,2023,Series B,Innovation Park,Germany
+Harvey,Legal AI,100,1500,2024,Series C,GV,USA
+Wayve,Autonomous Driving,1050,4000,2024,Series C,SoftBank Vision Fund 2,UK
+Sierra,Customer AI,110,1000,2024,Series A,Sequoia Capital,USA
+Shield AI,Defense AI,500,2800,2023,Series F,Riot Ventures,USA
+Wiz,Cloud Security,1000,12000,2024,Series E,Andreessen Horowitz,Israel
