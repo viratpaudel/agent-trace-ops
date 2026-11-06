@@ -11,6 +11,10 @@ def test_agent_graph_executes_query():
     assert state.final_answer is not None
     assert len(state.trace.spans) > 0
     assert state.trace.total_duration_ms > 0
+    timeline = state.trace.get_timeline()
+    assert isinstance(timeline, list)
+    assert len(timeline) == len(state.trace.spans)
+    assert "name" in timeline[0]
 
 def test_agent_graph_schema_inspection():
     graph = AgentGraph(registry=default_registry)

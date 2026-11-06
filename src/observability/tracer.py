@@ -80,3 +80,18 @@ class ExecutionTrace(BaseModel):
             "tool_calls": len([s for s in self.spans if s.span_type == "TOOL_CALL"]),
             "retries": len([s for s in self.spans if s.span_type == "SELF_CORRECTION"]),
         }
+
+    def get_timeline(self) -> List[Dict[str, Any]]:
+        """Generates an ordered chronological timeline of execution spans."""
+        return [
+            {
+                "span_id": s.span_id,
+                "parent_id": s.parent_id,
+                "name": s.name,
+                "type": s.span_type,
+                "status": s.status,
+                "duration_ms": s.duration_ms,
+                "error": s.error_message,
+            }
+            for s in sorted(self.spans, key=lambda x: x.start_time)
+        ]
