@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 from typing import Any, Dict
 import duckdb
@@ -50,15 +51,15 @@ class DuckDBAnalytics:
         """Executes a read-only analytical SQL query on DuckDB."""
         cleaned_query = sql_query.strip().rstrip(";")
 
-        # Security check: Read-only guardrail
-        forbidden = ["DROP", "DELETE", "UPDATE", "INSERT", "ALTER", "ATTACH", "COPY", "CALL"]
-        upper_tokens = cleaned_query.upper().split()
-        for f in forbidden:
-            if f in upper_tokens:
-                return {
-                    "success": False,
-                    "error": f"Security violation: Query contains disallowed mutation keyword '{f}'. Only SELECT/WITH analytical queries are permitted.",
-                }
+        # Security check: Read-only guardrail using word boundary inspection
+        forbidden = ["DROP", "DELETE", "UPDATE", "INSERT", "ALTER", "ATTACH", "COPY", "CALL", "PRAGMA", "EXPORT", "LOAD"]
+        found_forbidden = [f for f in forbidden if re.search(rf"\b{f}\b", cleaned_query, re.IGNORECASE)]
+        if found_forbidden:
+            matched = found_forbidden[0]
+            return {
+                "success": False,
+                "error": f"Security violation: Query contains disallowed mutation keyword '{matched}'. Only SELECT/WITH analytical queries are permitted.",
+            }
 
         try:
             rel = self.conn.execute(cleaned_query)
