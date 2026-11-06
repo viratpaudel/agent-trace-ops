@@ -1,6 +1,6 @@
 # ⚡ Agent-Trace-Ops
 
-[![CI Pipeline](https://github.com/your-username/agent-trace-ops/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/agent-trace-ops/actions)
+[![CI Pipeline](https://github.com/viratpaudel/agent-trace-ops/actions/workflows/ci.yml/badge.svg)](https://github.com/viratpaudel/agent-trace-ops/actions)
 ![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg)
 ![Docker Support](https://img.shields.io/badge/docker-compose%20ready-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-purple.svg)
@@ -196,6 +196,17 @@ Test coverage includes:
 
 > **Answer:** Rather than failing the user request, the agent implements a reflection node. The tool catches execution exceptions, wraps them into a structured error envelope, and feeds the error trace back into the planning prompt to compute an updated, valid invocation.
 </details>
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and suggestions are welcome!
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
