@@ -19,6 +19,16 @@ def test_safe_calculator_blocks_arbitrary_code_injection():
     assert res["success"] is False
     assert "Invalid expression" in res["error"] or "syntax" in res["error"].lower()
 
+def test_safe_calculator_functions_and_bounds():
+    res = safe_calculate("max(10, min(50, 30)) + round(sqrt(16))")
+    assert res["success"] is True
+    assert res["result"] == 34
+
+    # Excessive exponentiation bounds guardrail
+    large_exp = safe_calculate("2 ** 5000")
+    assert large_exp["success"] is False
+    assert "limits exceeded" in large_exp["error"]
+
 def test_duckdb_analytics_select_query():
     res = analytics_engine.execute_query("SELECT company, funding_usd_millions FROM tech_investments LIMIT 3")
     assert res["success"] is True

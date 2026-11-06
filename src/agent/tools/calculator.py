@@ -27,6 +27,8 @@ def _eval_node(node: ast.AST) -> Union[int, float]:
         right = _eval_node(node.right)
         if op_type == ast.Div and right == 0:
             raise ZeroDivisionError("Division by zero in mathematical expression.")
+        if op_type == ast.Pow and (abs(right) > 1000 or (abs(left) > 1e12 and right > 10)):
+            raise ValueError("Exponentiation limits exceeded for safety.")
         return SAFE_OPERATORS[op_type](left, right)
     elif isinstance(node, ast.UnaryOp):
         op_type = type(node.op)
@@ -38,7 +40,7 @@ def _eval_node(node: ast.AST) -> Union[int, float]:
         # Allow safe math functions
         if isinstance(node.func, ast.Name):
             func_name = node.func.id
-            if func_name in ("round", "abs", "sqrt", "ceil", "floor"):
+            if func_name in ("round", "abs", "sqrt", "ceil", "floor", "min", "max", "log"):
                 args = [_eval_node(arg) for arg in node.args]
                 if func_name == "round":
                     return round(*args)
@@ -52,6 +54,12 @@ def _eval_node(node: ast.AST) -> Union[int, float]:
                     return math.ceil(args[0])
                 elif func_name == "floor":
                     return math.floor(args[0])
+                elif func_name in ("min", "max"):
+                    return min(*args) if func_name == "min" else max(*args)
+                elif func_name == "log":
+                    if args[0] <= 0:
+                        raise ValueError("Logarithm domain error: argument must be positive.")
+                    return math.log(*args)
         raise ValueError("Arbitrary function execution is disabled for safety.")
     else:
         raise ValueError(f"Unsafe or invalid syntax node: {type(node).__name__}")
