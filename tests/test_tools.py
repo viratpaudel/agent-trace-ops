@@ -24,6 +24,15 @@ def test_safe_calculator_functions_and_bounds():
     assert res["success"] is True
     assert res["result"] == 34
 
+    # Trigonometric functions and constants
+    trig_res = safe_calculate("round(sin(pi / 2))")
+    assert trig_res["success"] is True
+    assert trig_res["result"] == 1
+
+    exp_res = safe_calculate("round(exp(1))")
+    assert exp_res["success"] is True
+    assert exp_res["result"] == 3
+
     # Excessive exponentiation bounds guardrail
     large_exp = safe_calculate("2 ** 5000")
     assert large_exp["success"] is False
