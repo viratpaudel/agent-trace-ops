@@ -36,11 +36,18 @@ def _eval_node(node: ast.AST) -> Union[int, float]:
             raise ValueError(f"Unsupported unary operator: {op_type.__name__}")
         operand = _eval_node(node.operand)
         return SAFE_OPERATORS[op_type](operand)
+    elif isinstance(node, ast.Name):
+        # Allow safe mathematical constants
+        if node.id == "pi":
+            return math.pi
+        elif node.id == "e":
+            return math.e
+        raise ValueError(f"Unknown variable or constant: {node.id}")
     elif isinstance(node, ast.Call):
         # Allow safe math functions
         if isinstance(node.func, ast.Name):
             func_name = node.func.id
-            if func_name in ("round", "abs", "sqrt", "ceil", "floor", "min", "max", "log"):
+            if func_name in ("round", "abs", "sqrt", "ceil", "floor", "min", "max", "log", "exp", "sin", "cos", "tan"):
                 args = [_eval_node(arg) for arg in node.args]
                 if func_name == "round":
                     return round(*args)
@@ -58,6 +65,18 @@ def _eval_node(node: ast.AST) -> Union[int, float]:
                     return min(*args) if func_name == "min" else max(*args)
                 elif func_name == "log":
                     if args[0] <= 0:
+                        raise ValueError("Cannot calculate logarithm of a non-positive number.")
+                    return math.log(args[0])
+                elif func_name == "exp":
+                    if args[0] > 700:
+                        raise ValueError("Exponent too large, potential float overflow.")
+                    return math.exp(args[0])
+                elif func_name == "sin":
+                    return math.sin(args[0])
+                elif func_name == "cos":
+                    return math.cos(args[0])
+                elif func_name == "tan":
+                    return math.tan(args[0])
                         raise ValueError("Logarithm domain error: argument must be positive.")
                     return math.log(*args)
         raise ValueError("Arbitrary function execution is disabled for safety.")
