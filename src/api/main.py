@@ -35,6 +35,7 @@ def health_check():
     return {
         "status": "healthy",
         "system": "agent-trace-ops",
+        "version": app.version,
         "registered_tools": list(default_registry.tools.keys()),
         "in_memory_db": "DuckDB active",
     }
