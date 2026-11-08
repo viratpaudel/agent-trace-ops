@@ -53,6 +53,10 @@ def test_duckdb_analytics_blocks_mutations():
     assert res_subquery["success"] is False
     assert "Security violation" in res_subquery["error"]
 
+    res_truncate = analytics_engine.execute_query("TRUNCATE TABLE tech_investments")
+    assert res_truncate["success"] is False
+    assert "Security violation" in res_truncate["error"]
+
 def test_tool_registry_execution():
     res = default_registry.execute("safe_calculate", {"expression": "25 * 4"})
     assert res["success"] is True
