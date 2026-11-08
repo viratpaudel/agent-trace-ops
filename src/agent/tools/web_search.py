@@ -31,7 +31,15 @@ MOCK_KNOWLEDGE_BASE = [
 
 def search_web(query: str, max_results: int = 3) -> Dict[str, Any]:
     """Searches web articles and technical documentation."""
-    query_lower = query.lower()
+    normalized_query = " ".join(query.strip().split())
+    if not normalized_query:
+        return {
+            "success": False,
+            "error": "Query string cannot be empty.",
+            "results": [],
+        }
+
+    query_lower = normalized_query.lower()
     matched_results: List[Dict[str, str]] = []
 
     # Check local curated technical index
