@@ -81,8 +81,9 @@ class ExecutionTrace(BaseModel):
             "retries": len([s for s in self.spans if s.span_type == "SELF_CORRECTION"]),
         }
 
-    def get_timeline(self) -> List[Dict[str, Any]]:
-        """Generates an ordered chronological timeline of execution spans."""
+    def get_timeline(self, status: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Generates an ordered chronological timeline of execution spans with optional status filtering."""
+        filtered_spans = self.spans if status is None else [s for s in self.spans if s.status.upper() == status.upper()]
         return [
             {
                 "span_id": s.span_id,
@@ -93,5 +94,5 @@ class ExecutionTrace(BaseModel):
                 "duration_ms": s.duration_ms,
                 "error": s.error_message,
             }
-            for s in sorted(self.spans, key=lambda x: x.start_time)
+            for s in sorted(filtered_spans, key=lambda x: x.start_time)
         ]
