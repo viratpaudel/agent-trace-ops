@@ -23,3 +23,11 @@ class AgentState(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+
+    def has_failures(self) -> bool:
+        """Checks if any recorded step encountered a failure or triggered reflection."""
+        return any(s.action_type == "SELF_CORRECT" or (s.tool_output and not s.tool_output.get("success", True)) for s in self.steps)
+
+    def get_tool_names(self) -> List[str]:
+        """Returns distinct tool names executed across all steps."""
+        return [s.tool_name for s in self.steps if s.tool_name is not None]
