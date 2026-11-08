@@ -52,7 +52,11 @@ class DuckDBAnalytics:
         cleaned_query = sql_query.strip().rstrip(";")
 
         # Security check: Read-only guardrail using word boundary inspection
-        forbidden = ["DROP", "DELETE", "UPDATE", "INSERT", "ALTER", "ATTACH", "COPY", "CALL", "PRAGMA", "EXPORT", "LOAD"]
+        forbidden = [
+            "DROP", "DELETE", "UPDATE", "INSERT", "ALTER", "ATTACH", "COPY", 
+            "CALL", "PRAGMA", "EXPORT", "LOAD", "TRUNCATE", "REPLACE", "EXEC", 
+            "VACUUM", "GRANT", "REVOKE"
+        ]
         found_forbidden = [f for f in forbidden if re.search(rf"\b{f}\b", cleaned_query, re.IGNORECASE)]
         if found_forbidden:
             matched = found_forbidden[0]
