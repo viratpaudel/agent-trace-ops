@@ -22,3 +22,10 @@ Input attempted: {attempted_input}
 
 Task: Reflect on why this failure occurred. Formulate an adjusted, corrected tool input or switch strategies to resolve the query.
 """
+
+SYNTHESIS_SUMMARY_PROMPT = """Review the accumulated execution trace steps and findings:
+Query: {query}
+Steps Completed: {steps_summary}
+
+Task: Synthesize a concise, verified final summary answering the original inquiry with metrics and evidence.
+"""
