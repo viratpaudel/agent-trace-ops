@@ -79,7 +79,12 @@ class ExecutionTrace(BaseModel):
             "span_count": len(self.spans),
             "tool_calls": len([s for s in self.spans if s.span_type == "TOOL_CALL"]),
             "retries": len([s for s in self.spans if s.span_type == "SELF_CORRECTION"]),
+            "errors": sum(1 for s in self.spans if s.status.upper() == "ERROR" or s.error_message is not None),
         }
+
+    def get_error_count(self) -> int:
+        """Returns the number of spans that ended with an error status or message."""
+        return sum(1 for s in self.spans if s.status.upper() == "ERROR" or s.error_message is not None)
 
     def get_timeline(self, status: Optional[str] = None) -> List[Dict[str, Any]]:
         """Generates an ordered chronological timeline of execution spans with optional status filtering."""
