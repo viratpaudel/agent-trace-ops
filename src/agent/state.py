@@ -31,3 +31,14 @@ class AgentState(BaseModel):
     def get_tool_names(self) -> List[str]:
         """Returns distinct tool names executed across all steps."""
         return [s.tool_name for s in self.steps if s.tool_name is not None]
+
+    def to_summary_dict(self) -> Dict[str, Any]:
+        """Provides a lightweight summary dictionary for status reporting."""
+        return {
+            "query": self.query,
+            "is_complete": self.is_complete,
+            "step_count": len(self.steps),
+            "tool_names": self.get_tool_names(),
+            "has_failures": self.has_failures(),
+            "final_answer": self.final_answer,
+        }
