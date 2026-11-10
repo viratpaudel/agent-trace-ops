@@ -47,6 +47,11 @@ class DuckDBAnalytics:
             "description": "Tech and AI funding rounds with company, sector, funding_usd_millions, valuation_usd_millions, year, stage, lead_investor, country",
         }
 
+    def get_row_count(self) -> int:
+        """Returns the total number of records currently loaded in the database."""
+        result = self.conn.execute("SELECT COUNT(*) FROM tech_investments").fetchone()
+        return result[0] if result else 0
+
     def execute_query(self, sql_query: str) -> Dict[str, Any]:
         """Executes a read-only analytical SQL query on DuckDB."""
         cleaned_query = sql_query.strip().rstrip(";")
