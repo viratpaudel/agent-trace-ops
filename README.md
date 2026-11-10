@@ -197,6 +197,12 @@ Test coverage includes:
 > **Answer:** Rather than failing the user request, the agent implements a reflection node. The tool catches execution exceptions, wraps them into a structured error envelope, and feeds the error trace back into the planning prompt to compute an updated, valid invocation.
 </details>
 
+<details>
+<summary><strong>Q: How can custom tools be registered and validated in the runtime?</strong></summary>
+
+> **Answer:** Tools can be dynamically inspected and added via `ToolRegistry.register()`. Developers can verify registered capabilities using `has_tool(name)` and retrieve runtime JSON parameter schemas via `get_definition(name)`.
+</details>
+
 ---
 
 ## 🤝 Contributing
