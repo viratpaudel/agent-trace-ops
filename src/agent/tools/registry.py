@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 from .calculator import safe_calculate
 from .sql_analytics import analytics_engine
 from .web_search import search_web
@@ -8,6 +8,17 @@ class ToolRegistry:
         self.tools: Dict[str, Callable] = {}
         self.definitions: List[Dict[str, Any]] = []
         self._register_default_tools()
+
+    def has_tool(self, name: str) -> bool:
+        """Returns True if the tool name is registered."""
+        return name in self.tools
+
+    def get_definition(self, name: str) -> Optional[Dict[str, Any]]:
+        """Retrieves the parameter specification dictionary for a registered tool."""
+        for defn in self.definitions:
+            if defn["name"] == name:
+                return defn
+        return None
 
     def register(self, name: str, description: str, parameters: Dict[str, Any], func: Callable):
         self.tools[name] = func
