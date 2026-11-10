@@ -61,3 +61,8 @@ def test_tool_registry_execution():
     res = default_registry.execute("safe_calculate", {"expression": "25 * 4"})
     assert res["success"] is True
     assert res["result"] == 100
+
+    assert default_registry.has_tool("safe_calculate") is True
+    assert default_registry.has_tool("unknown_tool") is False
+    assert default_registry.get_definition("safe_calculate") is not None
+    assert default_registry.get_definition("unknown_tool") is None
